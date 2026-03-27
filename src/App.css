@@ -69,6 +69,20 @@
   margin: 0;
 }
 
+.auth-form input.input-error {
+  border-color: #dc2626;
+}
+
+.auth-form input.input-error:focus {
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.25);
+}
+
+.field-error {
+  color: #dc2626;
+  font-size: 0.75rem;
+  margin-top: 0.125rem;
+}
+
 .auth-link {
   text-align: center;
   font-size: 0.875rem;
