@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import { registerUser } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
@@ -42,37 +43,49 @@ export function RegisterPage() {
   }
 
   return (
-    <div className="auth-container">
-      <form onSubmit={handleSubmit} className="auth-form" noValidate>
-        <h1>Create Account</h1>
-        {error && <p className="auth-error">{error}</p>}
-        <label>
-          Email
-          <input
-            type="email"
-            value={email}
-            onChange={e => { setEmail(e.target.value); setFieldErrors(prev => ({ ...prev, email: undefined })); }}
-            className={fieldErrors.email ? 'input-error' : ''}
-          />
-          {fieldErrors.email && <span className="field-error">{fieldErrors.email}</span>}
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={e => { setPassword(e.target.value); setFieldErrors(prev => ({ ...prev, password: undefined })); }}
-            className={fieldErrors.password ? 'input-error' : ''}
-          />
-          {fieldErrors.password && <span className="field-error">{fieldErrors.password}</span>}
-        </label>
-        <button type="submit" disabled={loading}>
-          {loading ? 'Creating account\u2026' : 'Create Account'}
-        </button>
-        <p className="auth-link">
-          Already have an account? <Link to="/login">Sign in</Link>
-        </p>
-      </form>
-    </div>
+    <Container className="d-flex align-items-center justify-content-center min-vh-100">
+      <Row className="w-100 justify-content-center">
+        <Col xs={12} sm={8} md={5} lg={4}>
+          <Card className="shadow-sm">
+            <Card.Body className="p-4">
+              <h1 className="text-center mb-4 h3">Create Account</h1>
+              {error && <Alert variant="danger">{error}</Alert>}
+              <Form onSubmit={handleSubmit} noValidate>
+                <Form.Group className="mb-3" controlId="registerEmail">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    value={email}
+                    onChange={e => { setEmail(e.target.value); setFieldErrors(prev => ({ ...prev, email: undefined })); }}
+                    isInvalid={!!fieldErrors.email}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {fieldErrors.email}
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="registerPassword">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    value={password}
+                    onChange={e => { setPassword(e.target.value); setFieldErrors(prev => ({ ...prev, password: undefined })); }}
+                    isInvalid={!!fieldErrors.password}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {fieldErrors.password}
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Button type="submit" className="w-100" disabled={loading}>
+                  {loading ? 'Creating account\u2026' : 'Create Account'}
+                </Button>
+              </Form>
+              <p className="text-center text-muted mt-3 mb-0">
+                Already have an account? <Link to="/login">Sign in</Link>
+              </p>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 }
